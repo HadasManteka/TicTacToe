@@ -62,7 +62,32 @@ public class MainActivity extends AppCompatActivity {
             status.setText(message);
         }
 
-//        checkWinning(status);
+        checkWinning(status);
+    }
+
+    public void checkWinning(TextView status) {
+        int flag = 0;
+
+        for (int[] winPosition : winPositions) {
+            if (gameState[winPosition[0]] == gameState[winPosition[1]] &&
+                    gameState[winPosition[1]] == gameState[winPosition[2]] &&
+                    gameState[winPosition[0]] != 2) {
+
+                flag = 1;
+                String winnerStr;
+                gameActive = false;
+                if (gameState[winPosition[0]] == 1) {
+                    winnerStr = "X has won";
+                } else {
+                    winnerStr = "O has won";
+                }
+                status.setText(winnerStr);
+            }
+        }
+        // set the status if the match draw
+        if (countTaps == 9 && flag == 0) {
+            status.setText("Match Draw");
+        }
     }
 
     public void gameReset(View view) {
