@@ -2,6 +2,7 @@ package com.example.tictactoe;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,20 +31,10 @@ public class MainActivity extends AppCompatActivity {
         ImageView img = (ImageView) view;
         int tappedImage = Integer.parseInt(img.getTag().toString());
 
-        // if someone wins or the boxes are full
-        if (!gameActive) {
-            gameReset(view);
-        }
-
         // if the tapped image is empty
         if (gameState[tappedImage] == 2) {
             countTaps++;
             gameState[tappedImage] = activePlayer;
-
-            // check if its the last box
-            if (countTaps == 9) {
-                gameActive = false;
-            }
 
             // Effects to the image
             img.setTranslationY(-1000f);
@@ -59,7 +50,13 @@ public class MainActivity extends AppCompatActivity {
                 message = "X's Turn - Tap to play";
             }
 
-            status.setText(message);
+            if (countTaps == 9) {
+                gameActive = false;
+                Button playAgainButton = findViewById(R.id.play_again_button);
+                playAgainButton.setVisibility(View.VISIBLE);
+            } else {
+                status.setText(message);
+            }
         }
 
         checkWinning(status);
@@ -82,11 +79,13 @@ public class MainActivity extends AppCompatActivity {
                     winnerStr = "O has won";
                 }
                 status.setText(winnerStr);
+                Button playAgainButton = findViewById(R.id.play_again_button);
+                playAgainButton.setVisibility(View.VISIBLE);
             }
         }
         // set the status if the match draw
         if (countTaps == 9 && flag == 0) {
-            status.setText("Match Draw");
+            status.setText("No winner");
         }
     }
 
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         gameActive = true;
         activePlayer = 1;
         Arrays.fill(gameState, 2);
-
+        countTaps=0;
         ((ImageView) findViewById(R.id.imageView0)).setImageResource(0);
         ((ImageView) findViewById(R.id.imageView1)).setImageResource(0);
         ((ImageView) findViewById(R.id.imageView2)).setImageResource(0);
@@ -107,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
 
         TextView status = findViewById(R.id.status);
         status.setText("X's Turn - Tap to play");
+
+        Button playAgainButton = findViewById(R.id.play_again_button);
+        playAgainButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
