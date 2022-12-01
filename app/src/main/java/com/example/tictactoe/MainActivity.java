@@ -6,13 +6,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
     public static int countTaps = 0;
     boolean gameActive = true;
-    String message ="";
+    String message = "";
 
     //  1 - X
     //  0 - O
@@ -22,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     // All the win positions
     int[][] winPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-                            {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
-                            {0, 4, 8}, {2, 4, 6}};
+            {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
+            {0, 4, 8}, {2, 4, 6}};
 
     // Every tap in an empty box of the grid
     public void playerTap(View view) {
@@ -50,24 +51,20 @@ public class MainActivity extends AppCompatActivity {
             if (activePlayer == 1) {
                 img.setImageResource(R.drawable.x);
                 activePlayer = 0;
-                message = "O's Turn - Tap to play";
             } else {
                 img.setImageResource(R.drawable.o);
                 activePlayer = 1;
-                message = "X's Turn - Tap to play";
             }
         }
 
         checkWinning(turnImg);
-    }
-            if (countTaps == 9) {
-                gameActive = false;
-                Button playAgainButton = findViewById(R.id.play_again_button);
-                playAgainButton.setVisibility(View.VISIBLE);
-            } else {
-                status.setText(message);
-            }
+
+        if (countTaps == 9) {
+            gameActive = false;
+            Button playAgainButton = findViewById(R.id.play_again_button);
+            playAgainButton.setVisibility(View.VISIBLE);
         }
+    }
 
     public void writeTurn(ImageView img) {
         img.setImageResource((activePlayer == 1) ? R.drawable.oplay : R.drawable.xplay);
@@ -145,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
         countTaps = 0;
         ImageView markImg = findViewById(R.id.mark);
         markImg.setImageResource(R.drawable.empty);
+
+        ImageView turnImg = findViewById(R.id.imageTurn);
+        turnImg.setImageResource(R.drawable.xplay);
 
         Arrays.fill(gameState, 2);
 
