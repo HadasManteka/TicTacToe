@@ -12,6 +12,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     public static int countTaps = 0;
+    boolean gameActive = true;
 
     //  1 - X
     //  0 - O
@@ -26,30 +27,33 @@ public class MainActivity extends AppCompatActivity {
 
     // Every tap in an empty box of the grid
     public void playerTap(View view) {
-        ImageView img = (ImageView) view;
-        ImageView turnImg = findViewById(R.id.imageTurn);
-        int tappedImage = Integer.parseInt(img.getTag().toString());
+        if (gameActive) {
+            ImageView img = (ImageView) view;
+            ImageView turnImg = findViewById(R.id.imageTurn);
+            int tappedImage = Integer.parseInt(img.getTag().toString());
 
-        writeTurn(turnImg);
+            writeTurn(turnImg);
 
-        if (gameState[tappedImage] == 2) {
-            countTaps++;
-            gameState[tappedImage] = activePlayer;
+            if (gameState[tappedImage] == 2) {
+                countTaps++;
+                gameState[tappedImage] = activePlayer;
 
-            if (activePlayer == 1) {
-                img.setImageResource(R.drawable.x);
-                activePlayer = 0;
-            } else {
-                img.setImageResource(R.drawable.o);
-                activePlayer = 1;
+                if (activePlayer == 1) {
+                    img.setImageResource(R.drawable.x);
+                    activePlayer = 0;
+                } else {
+                    img.setImageResource(R.drawable.o);
+                    activePlayer = 1;
+                }
             }
-        }
 
-        checkWinning(turnImg);
+            checkWinning(turnImg);
 
-        if (countTaps == 9) {
-            Button playAgainButton = findViewById(R.id.play_again_button);
-            playAgainButton.setVisibility(View.VISIBLE);
+            if (countTaps == 9) {
+                gameActive = false;
+                Button playAgainButton = findViewById(R.id.play_again_button);
+                playAgainButton.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 gameState[winPosition[1]] == gameState[winPosition[2]] &&
                 gameState[winPosition[0]] != 2) {
 
+                gameActive = false;
                 flag = 1;
                 setMark(winIndex);
                 img.setImageResource((gameState[winPosition[0]] == 1) ? R.drawable.xwin : R.drawable.owin);
@@ -123,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gameReset(View view) {
+        gameActive = true;
         activePlayer = 1;
         countTaps = 0;
         ImageView markImg = findViewById(R.id.mark);
