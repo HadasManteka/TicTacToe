@@ -12,8 +12,6 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     public static int countTaps = 0;
-    boolean gameActive = true;
-    String message = "";
 
     //  1 - X
     //  0 - O
@@ -23,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     // All the win positions
     int[][] winPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-            {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
-            {0, 4, 8}, {2, 4, 6}};
+                            {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
+                            {0, 4, 8}, {2, 4, 6}};
 
     // Every tap in an empty box of the grid
     public void playerTap(View view) {
@@ -34,19 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
         writeTurn(turnImg);
 
-        // if someone wins or the boxes are full
-        if (!gameActive) {
-            gameReset(view);
-        }
-
-        // if the tapped image is empty
         if (gameState[tappedImage] == 2) {
             countTaps++;
             gameState[tappedImage] = activePlayer;
-
-            // Effects to the image
-            img.setTranslationY(-1000f);
-            img.animate().translationYBy(1000f).setDuration(300);
 
             if (activePlayer == 1) {
                 img.setImageResource(R.drawable.x);
@@ -60,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         checkWinning(turnImg);
 
         if (countTaps == 9) {
-            gameActive = false;
             Button playAgainButton = findViewById(R.id.play_again_button);
             playAgainButton.setVisibility(View.VISIBLE);
         }
@@ -76,11 +63,10 @@ public class MainActivity extends AppCompatActivity {
 
         for (int[] winPosition : winPositions) {
             if (gameState[winPosition[0]] == gameState[winPosition[1]] &&
-                    gameState[winPosition[1]] == gameState[winPosition[2]] &&
-                    gameState[winPosition[0]] != 2) {
+                gameState[winPosition[1]] == gameState[winPosition[2]] &&
+                gameState[winPosition[0]] != 2) {
 
                 flag = 1;
-                gameActive = false;
                 setMark(winIndex);
                 img.setImageResource((gameState[winPosition[0]] == 1) ? R.drawable.xwin : R.drawable.owin);
                 Button playAgainButton = findViewById(R.id.play_again_button);
@@ -88,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
             winIndex++;
         }
-        // set the status if the match draw
+
         if (countTaps == 9 && flag == 0) {
             img.setImageResource(R.drawable.nowin);
         }
@@ -137,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gameReset(View view) {
-        gameActive = true;
         activePlayer = 1;
         countTaps = 0;
         ImageView markImg = findViewById(R.id.mark);
