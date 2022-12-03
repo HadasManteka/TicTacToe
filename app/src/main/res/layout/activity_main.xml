@@ -17,7 +17,7 @@
         android:fontFamily="@font/acme"
         android:forceHasOverlappingRendering="false"
         android:includeFontPadding="false"
-        android:onClick="gameReset"
+        android:onClick="resetGame"
         android:text="PLAY AGAIN"
         android:textSize="24sp"
         android:textStyle="bold"
