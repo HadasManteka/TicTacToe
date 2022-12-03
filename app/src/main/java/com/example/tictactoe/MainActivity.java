@@ -14,13 +14,9 @@ public class MainActivity extends AppCompatActivity {
     public static int countTaps = 0;
     boolean isGameActive = true;
 
-    //  1 - X
-    //  0 - O
-    //  2 - empty
+    //  1 - X 0 - O 2 - empty
     int activePlayerCode = 1;
     int[] boardGameState = {2, 2, 2, 2, 2, 2, 2, 2, 2};
-
-    // All the win positions
     int[][] winningCase = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
                             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
                             {0, 4, 8}, {2, 4, 6}};
@@ -41,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
             displayTurn(turnImg);
 
             if (boardGameState[tappedImage] == 2) {
-                countTaps++;
                 boardGameState[tappedImage] = activePlayerCode;
+                countTaps++;
 
                 if (activePlayerCode == 1) {
                     playerImg.setImageResource(R.drawable.x);
@@ -71,15 +67,15 @@ public class MainActivity extends AppCompatActivity {
         int flag = 0;
         int winIndex = 0;
 
-        for (int[] winPosition : winningCase) {
-            if (boardGameState[winPosition[0]] == boardGameState[winPosition[1]] &&
-                boardGameState[winPosition[1]] == boardGameState[winPosition[2]] &&
-                boardGameState[winPosition[0]] != 2) {
+        for (int[] winCase : winningCase) {
+            if (boardGameState[winCase[0]] != 2 &&
+                boardGameState[winCase[0]] == boardGameState[winCase[1]] &&
+                boardGameState[winCase[1]] == boardGameState[winCase[2]]) {
 
                 isGameActive = false;
                 flag = 1;
                 setMark(winIndex);
-                img.setImageResource((boardGameState[winPosition[0]] == 1) ? R.drawable.xwin : R.drawable.owin);
+                img.setImageResource((boardGameState[winCase[0]] == 1) ? R.drawable.xwin : R.drawable.owin);
                 Button playAgainButton = findViewById(R.id.play_again_button);
                 playAgainButton.setVisibility(View.VISIBLE);
             }
