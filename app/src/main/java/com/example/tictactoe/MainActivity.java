@@ -25,6 +25,12 @@ public class MainActivity extends AppCompatActivity {
                             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
                             {0, 4, 8}, {2, 4, 6}};
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
     // Every tap in an empty box of the grid
     public void playerTap(View view) {
         if (gameActive) {
@@ -151,11 +157,5 @@ public class MainActivity extends AppCompatActivity {
 
         Button playAgainButton = findViewById(R.id.play_again_button);
         playAgainButton.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
     }
 }
